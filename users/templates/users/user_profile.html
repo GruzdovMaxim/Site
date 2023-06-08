@@ -1,0 +1,62 @@
+{% extends 'main/layout.html' %}
+{%block title%}Tortilla{% endblock %}
+{%block content%}
+{% load static %}
+
+{% include 'users/user_information.html' with active_tab='profile' %}
+			</div>
+			<div class="col-md-9 col-sm-12 col-xs-12">
+				<div class="form-style-1 user-pro">
+					<form method="post" action="" class="user">
+						{% csrf_token %}
+						<h4>Profile details</h4>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Username <span style="color:gray;font-size:10px">(minimum 5 symbols, the first is letter)</span></label>
+								<input name="change_nick_name" type="text" placeholder="{{ current_user.nick_name }}" pattern="^[a-zA-Z][a-zA-Z0-9_\-.]{4,20}$" maxlength="20">
+							</div>
+							<div class="col-md-6 form-it">
+								<label>Email Address <span style="color:gray;font-size:10px">(minimum 5 symbols, the first is letter)</span></label>
+								<input name="change_email_address" type="email" placeholder="{{ current_user.email_address }}" pattern="(?=^.{5,}$)(?![.\n]).*$">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>First Name <span style="color:gray;font-size:10px">(minimum 4 symbols, all letters)</span></label>
+								<input name="change_first_name" type="text" placeholder="{{ current_user.first_name }}" pattern="^(?=.*[A-Za-z])[A-Za-z]{4,}$" >
+							</div>
+							<div class="col-md-6 form-it">
+								<label>Last Name <span style="color:gray;font-size:10px">(minimum 4 symbols, all letters)</span></label>
+								<input name="change_last_name" type="text" placeholder="{{ current_user.last_name }}" pattern="^(?=.*[A-Za-z])[A-Za-z]{4,}$" >
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Country</label>
+								<select name="change_country">
+									<option value="">{{ current_user.country }}</option>
+								  	<option>United States</option>
+								  	<option>Ukraine</option>
+								</select>
+							</div>
+							<div class="col-md-6 form-it">
+								<label>State</label>
+								<select name="change_state">
+								  	<option value="">{{ current_user.state }}</option>
+								  	<option>New York</option>
+								  	<option>Kyiv</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2">
+								<input class="submit" type="submit" value="save">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

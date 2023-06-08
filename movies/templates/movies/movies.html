@@ -1,0 +1,150 @@
+{% extends 'main/layout.html' %}
+{%block title%}Tortilla{% endblock %}
+{%block content%}
+{% load static %}
+<div class="hero common-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					<h1> movie listing - grid</h1>
+					<ul class="breadcumb">
+						<li class="active"><a href="{% url 'main_app:home' %}">Home</a></li>
+						<li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="page-single">
+	<div class="container">
+		<div class="row ipad-width">
+			<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="topbar-filter">
+					<p>Found <span>{{ defined_movies|length }} movies</span> in total</p>
+					<label>Sort by:</label>
+					<select>
+						<option value="popularity">Popularity Descending</option>
+						<option value="popularity">Popularity Ascending</option>
+						<option value="rating">Rating Descending</option>
+						<option value="rating">Rating Ascending</option>
+						<option value="date">Release date Descending</option>
+						<option value="date">Release date Ascending</option>
+					</select>
+					<a href="{% url 'movies_list' %}" class="list"><i class="ion-ios-list-outline "></i></a>
+					<a href="{% url 'movies' %}" class="grid"><i class="ion-grid active"></i></a>
+				</div>
+				<div class="flex-wrap-movielist">
+                        {% for one_selected_movie in defined_movies %}
+                            <div class="movie-item-style-2 movie-item-style-1">
+								{% with image_directory_name=one_selected_movie.directory_name selected_movie_id=one_selected_movie.id %}
+                                    <img src="{% static 'main/images/movies/'|add:image_directory_name|add:'/main_picture.jpg' %}" alt="">
+                                <div class="hvr-inner">
+                                    <a  href="{% url 'movie_single' selected_movie_id %}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                </div>
+                                {% endwith %}
+                                <div class="mv-item-infor">
+                                    <h6><a href="#">{{one_selected_movie.title}}</a></h6>
+                                    <p class="rate"><i class="ion-android-star"></i><span>{{one_selected_movie.movie_score}}</span> /10</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+				</div>
+				<div class="topbar-filter">
+					<label>Movies per page:</label>
+					<select>
+						<option value="range">20 Movies</option>
+						<option value="saab">10 Movies</option>
+					</select>
+
+					<div class="pagination2">
+						<span>Page 1 of 2:</span>
+						<a class="active" href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">...</a>
+						<a href="#">78</a>
+						<a href="#">79</a>
+						<a href="#"><i class="ion-arrow-right-b"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="sidebar">
+					<div class="searh-form">
+						<h4 class="sb-title">Search for movie</h4>
+						<form class="form-style-1" action="">
+							<div class="row">
+								<div class="col-md-12 form-it">
+									<label>Movie name</label>
+									<input name="text_for_input" type="text" placeholder="Enter keywords">
+								</div>
+								<div class="col-md-12 form-it">
+									<label>Genres & Subgenres</label>
+									<div class="group-ip">
+										<select
+											name="skills" multiple="" class="ui fluid dropdown">
+											<option value="">Enter to filter genres</option>
+											{% for one_selected_genre in all_genres %}
+											<option value="{{one_selected_genre.whole_name|title}}">{{one_selected_genre.whole_name|title}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="col-md-12 form-it">
+									<label>Rating Range</label>
+									<select name="rating_range">
+										<option value="">Select the rating range below </option>
+										<option> from 0 to 3  </option>
+										<option> from 3 to 6  </option>
+										<option> from 6 to 9  </option>
+										<option> from 9 to 10  </option>
+									</select>
+								</div>
+								<div class="col-md-12 form-it">
+									<label>Release Year</label>
+									<div class="row">
+										<div class="col-md-6">
+											<select name="release_year_from">
+											  <option value="">From</option>
+											  <option>1940</option>
+											  <option>1950</option>
+											  <option>1960</option>
+											  <option>1970</option>
+											  <option>1980</option>
+											  <option>1990</option>
+											  <option>2000</option>
+											  <option>2010</option>
+											  <option>2020</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<select name="release_year_to">
+											  <option value="">To</option>
+											  <option>1940</option>
+											  <option>1950</option>
+											  <option>1960</option>
+											  <option>1970</option>
+											  <option>1980</option>
+											  <option>1990</option>
+											  <option>2000</option>
+											  <option>2010</option>
+											  <option>2020</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 ">
+									<input class="submit" type="submit" value="submit">
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

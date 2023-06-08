@@ -1,0 +1,63 @@
+{% load static %}
+<div class="hero user-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hero-ct">
+					<h1>{% if current_user.first_name != "" and current_user.last_name != "" %}
+						{{ current_user.first_name }} {{ current_user.last_name }}
+						{% else %}
+						{{ current_user.nick_name }}
+						{% endif %}’s profile</h1>
+					<ul class="breadcumb">
+						<li class="active"><a href="{% url 'main_app:home' %}">Home</a></li>
+						<li> <span class="ion-ios-arrow-right"></span>
+                        {% if active_tab == 'profile' %}Profile{% endif %}
+                        {% if active_tab == 'favorite_movies' %}Favorite movies{% endif %}
+                        {% if active_tab == 'change_password' %}Change password{% endif %}
+                        </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="page-single userfav_list">
+	<div class="container">
+		<div class="row ipad-width2">
+			<div class="col-md-3 col-sm-12 col-xs-12">
+                <div class="user-information">
+                    <div class="user-img">
+                        <form method="post" action="{% url 'user_change_avatar' %}" enctype="multipart/form-data" >
+                            {% csrf_token %}
+                            {% if request.session.avatar_icon_state %}
+                            <label for="upload-photo" ><img style="width:120px;height:120px;margin:20px;border-radius:40%" src="{% static 'main/images/users/'|add:request.session.current_user_directory_name|add:'/avatar_picture.jpg' %}" alt=""></label>
+                            {% else %}
+                            <label for="upload-photo" ><img style="width:120px;height:120px;margin:20px;border-radius:40%" src="{% static 'main/images/users/default_picture.png' %}" alt=""></label>
+                            {% endif %}
+                            <input class="redbtn" type="submit" placeholder="submit" value="Change avatar" style="border: 0px">
+                            <input type="file" name="new_avatar" id="upload-photo" style="opacity: 0;position: absolute;z-index: -1;width:10px;height:10px;"/>
+                        </form>
+<!--                        <a href="" ><input type="file" name="picture" style="background-image: url({% static 'main/images/users/default_picture.png' %});background-size: cover;width:120px;height:120px;background-position: center"><br></a>-->
+
+<!--                        <a href="" ><img style="width:120px;height:120px" src="{% static 'main/images/users/default_picture.png' %}" alt=""><br></a>-->
+<!--                        <input type="file" name="image" id="imageInput" accept="image/*" class="redbtn" onchange="sdsdsdsdssds">-->
+<!--                        <a href="{% url 'user_change_avatar' %}" style="margin-bottom:40px" class="redbtn">Change avatar</a>-->
+<!--                        <div><label style="" for="upload-photo" ><img style="width:120px;height:120px" src="{% static 'main/images/users/default_picture.png' %}" alt=""></label></div>-->
+
+                    </div>
+                    <div class="user-fav">
+                        <p>Account Details</p>
+                        <ul>
+                            <li class="{% if active_tab == 'profile' %}active{% endif %}"><a href="{% url 'user_profile' %}">Profile</a></li>
+                            <li class="{% if active_tab == 'favorite_movies' %}active{% endif %}"><a href="{% url 'user_favorite_grid' %}">Favorite movies</a></li>
+                        </ul>
+                    </div>
+                    <div class="user-fav">
+                        <p>Others</p>
+                        <ul>
+                            <li class="{% if active_tab == 'change_password' %}active{% endif %}"><a href="{% url 'user_profile_password' %}">Change password</a></li>
+                            <li><a href="{% url 'user_logout' %}">Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
