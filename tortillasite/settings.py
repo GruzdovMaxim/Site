@@ -80,19 +80,19 @@ WSGI_APPLICATION = 'tortillasite.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
 #     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'db_example11',
-#         'ENFORCE_SCHEMA': False,
-#         'CLIENT': {
-#             'host':
-#                 'mongodb+srv://lexa_admin:G1ixqFQEpieq2LMz@cluster0.2vx4osp.mongodb.net/?retryWrites=true&w=majority'
-#         }
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'db_example11',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host':
+                'mongodb+srv://lexa_admin:G1ixqFQEpieq2LMz@cluster0.2vx4osp.mongodb.net/?retryWrites=true&w=majority'
+        }
+    }
 }
 
 # Password validation
