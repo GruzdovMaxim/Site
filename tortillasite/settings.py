@@ -129,7 +129,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-#STATIC_ROOT = '/home/MaximGruzdov/DjangoProjectMovieDataBaseWebSite/main/static'
+STATIC_ROOT =  BASE_DIR / "main/static"
 
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",
