@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 import random
 import os
+
+import base64
 from movies.models import TheMovie
 from .models import MovieDBUser
 
@@ -25,13 +27,12 @@ def user_registration(request):
         new_user.password = new_user_password[0]
         new_user.email_address = new_email
         # creating the name for the directory and the directory itself
-        new_user.directory_name = new_user_name + "_" + ''.join(str(random.randint(0, 9)) for _ in range(3))
-        whole_path_for_folder = "tortillasite\\main\\static\\main\\images\\users\\"
-        os.makedirs(whole_path_for_folder + new_user.directory_name, exist_ok=True)
+        # new_user.directory_name = new_user_name + "_" + ''.join(str(random.randint(0, 9)) for _ in range(3))
+        # whole_path_for_folder = "tortillasite\\main\\static\\main\\images\\users\\"
+        # os.makedirs(whole_path_for_folder + new_user.directory_name, exist_ok=True)
         new_user.save()
         # print(request.session.get("current_user_username"))
         request.session["current_user_username"] = new_user.nick_name
-        request.session["current_user_directory_name"] = new_user.directory_name
         # print(request.POST)
     return redirect('main_app:home')
 
@@ -49,7 +50,6 @@ def user_login(request):
         current_user = MovieDBUser.objects.get(nick_name=login_user_name)
         if login_user_password == current_user.password:
             request.session["current_user_username"] = current_user.nick_name
-            request.session["current_user_directory_name"] = current_user.directory_name
         else:
             request.session["login_error"] = "Incorrect password"
     else:
@@ -60,7 +60,6 @@ def user_login(request):
 
 def user_logout(request):
     del request.session["current_user_username"]
-    del request.session["current_user_directory_name"]
     if request.session.get("current_user_first_name"):
         del request.session["current_user_first_name"]
     if request.session.get("current_user_last_name"):
@@ -78,6 +77,10 @@ def user_profile(request):
 
     if current_user_name:
         current_user = MovieDBUser.objects.get(nick_name=current_user_name)
+        additional_data = {}
+        # if current_user.avatar_icon_changed:
+            # additional_data = {"binary_data": base64.b64encode(current_user.avatar_icon).decode('utf-8')}
+
         if request.method == "POST":
             print(request.POST)
             change_nick_name = request.POST.get("change_nick_name")
@@ -102,12 +105,11 @@ def user_profile(request):
             current_user.save()
 
             request.session["current_user_username"] = current_user.nick_name
-            request.session["current_user_directory_name"] = current_user.directory_name
 
         user_profile_info = {"current_user": current_user}
     else:
         return redirect('main_app:home')
-    return render(request, 'users/user_profile.html', user_profile_info)
+    return render(request, 'users/user_profile.html', user_profile_info | additional_data)
 
 
 def user_profile_password(request):
@@ -156,15 +158,17 @@ def user_favorite_list(request):
 def user_change_avatar(request):
     if request.method == "POST" and request.FILES.get("new_avatar"):
         current_user = MovieDBUser.objects.get(nick_name=request.session.get("current_user_username"))
-        whole_path_for_folder = "tortillasite\\main\\static\\main\\images\\users\\"
+        # whole_path_for_folder = "tortillasite\\main\\static\\main\\images\\users\\"
         print(request.FILES.get("new_avatar"))
-        selected_folder = whole_path_for_folder + current_user.directory_name
-        with open(selected_folder + "\\avatar_picture.jpg", 'wb') as destination_file:
-            # Iterate over the uploaded file chunks and write them to the destination file
-            for chunk in request.FILES.get("new_avatar").chunks():
-                destination_file.write(chunk)
-            # destination_file.write("askdhasjkd")
+        # selected_folder = whole_path_for_folder + current_user.directory_name
+        # with open(selected_folder + "\\avatar_picture.jpg", 'wb') as destination_file:
+        #     # Iterate over the uploaded file chunks and write them to the destination file
+        #     for chunk in request.FILES.get("new_avatar").chunks():
+        #         destination_file.write(chunk)
+        #     # destination_file.write("askdhasjkd")
+        current_user.avatar_icon = request.FILES.get("new_avatar").read()
         current_user.avatar_icon_changed = True
         current_user.save()
+
         request.session["avatar_icon_state"] = "changed"
     return redirect('user_profile')

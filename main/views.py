@@ -12,7 +12,6 @@ def index(request):
     five_celebrities = Actor.objects.all()[:5]
     # print(five_actors)
     # current_user_username = request.session.get("current_user_username")
-    # current_user_directory_name = request.session.get("current_user_username")
     errors = {}
     if request.session.get("login_error"):
         print(request.session.get("login_error"))

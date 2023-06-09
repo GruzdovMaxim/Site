@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_filters %}
+
 <div class="hero user-hero">
 	<div class="container">
 		<div class="row">
@@ -31,7 +33,7 @@
                         <form method="post" action="{% url 'user_change_avatar' %}" enctype="multipart/form-data" >
                             {% csrf_token %}
                             {% if request.session.avatar_icon_state %}
-                            <label for="upload-photo" ><img style="width:120px;height:120px;margin:20px;border-radius:40%" src="{% static 'main/images/users/'|add:request.session.current_user_directory_name|add:'/avatar_picture.jpg' %}" alt=""></label>
+                            <label for="upload-photo" ><img style="width:120px;height:120px;margin:20px;border-radius:40%" src="data:image/jpeg;base64, {{current_user.avatar_icon|base64_encode}}" alt=""></label>
                             {% else %}
                             <label for="upload-photo" ><img style="width:120px;height:120px;margin:20px;border-radius:40%" src="{% static 'main/images/users/default_picture.png' %}" alt=""></label>
                             {% endif %}

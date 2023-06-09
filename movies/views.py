@@ -88,7 +88,6 @@ def movie_single(request, movie_id):
         # print(selected_movie)
         # print(whole_important_info["current_movie_is_favourite"])
         # print(selected_movie in MovieDBUser.objects.get(nick_name=current_user_nick_name).favourite_movies.all)
-    # current_user_directory_name = request.session.get("current_user_directory_name")
 
     return render(request, 'movies/movie_single.html', whole_important_info)
 

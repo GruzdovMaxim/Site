@@ -12,7 +12,7 @@ class MovieDBUser(models.Model):
     last_name = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
     state = models.CharField(max_length=20)
-    directory_name = models.CharField(max_length=20)
+    avatar_icon = models.BinaryField()
     avatar_icon_changed = models.BooleanField()
     favourite_movies = models.ManyToManyField(TheMovie)
 
