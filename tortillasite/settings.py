@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'tortillasite.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'db_example11',
@@ -129,7 +129,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = '/home/MaximGruzdov/DjangoProjectMovieDataBaseWebSite/main/static'
+STATIC_ROOT =  BASE_DIR / "main/static"
 
 STATICFILES_DIRS = [
     BASE_DIR / "main/static",
